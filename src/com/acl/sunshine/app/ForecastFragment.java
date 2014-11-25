@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -86,7 +88,26 @@ public class ForecastFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView weatherListView = (ListView)rootView.findViewById(R.id.listview_forecast);
         weatherListView.setAdapter(mForecastAdapter);
-        
+        weatherListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+        	@Override 
+        	public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+        	{
+        		
+        		 
+        		String forecast = mForecastAdapter.getItem(position);
+        		
+        		Intent displayIntent = new Intent(getActivity(), DetailActivity.class)
+        					.putExtra(Intent.EXTRA_TEXT, forecast);
+        		startActivity(displayIntent);
+        		
+        		
+        		//int duration = Toast.LENGTH_SHORT;
+        		// Can also use view.Getcontext instead of getActivity()
+        		//Toast toast = Toast.makeText(getActivity(), forecast, duration);
+        		//toast.show();
+        	}
+        });
         return rootView;
     }
     
