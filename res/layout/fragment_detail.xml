@@ -9,8 +9,8 @@
     tools:context="com.acl.sunshine.app.DetailActivity$PlaceholderFragment" >
 
     <TextView
+        android:id="@+id/detail_forecast"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
