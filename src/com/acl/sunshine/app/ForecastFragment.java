@@ -135,9 +135,21 @@ public class ForecastFragment extends Fragment {
     	*/
     	private String formatHighLows(double high, double low) {
 	    	// For presentation, assume the user doesn't care about tenths of a degree.
+    		
+    		String units = PreferenceManager.getDefaultSharedPreferences(getActivity())
+					.getString(getString(R.string.pref_temperatureunits_key), 
+					getString(R.string.pref_temperatureunits_metric));
+	    	
+	    	if (units.equals(getString(R.string.pref_temperatureunits_imperial))) {
+	    		high = (9/5)*high+32;
+	    		low = (9/5)*low+32;
+	    	} else if (!units.equals(getString(R.string.pref_temperatureunits_metric))) {
+	    		Log.d(LOG_TAG, "Unit type not found: " + units);
+	    	}
+    		
 	    	long roundedHigh = Math.round(high);
 	    	long roundedLow = Math.round(low);
-	    	 
+	    	
 	    	String highLowStr = roundedHigh + "/" + roundedLow;
 	    	return highLowStr;
     	}

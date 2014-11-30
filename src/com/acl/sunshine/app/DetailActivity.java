@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 public class DetailActivity extends Activity {
@@ -63,8 +65,25 @@ public class DetailActivity extends Activity {
 			String message = intent.getStringExtra(Intent.EXTRA_TEXT);
 			TextView forecastView = (TextView)rootView.findViewById(R.id.detail_forecast);
 			forecastView.setText(message);
-			
+
 			return rootView;
+		}
+		
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+				inflater.inflate(R.menu.detail_share, menu);
+			    MenuItem item = menu.findItem(R.id.action_share);
+			 
+				ShareActionProvider myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+		 
+		    	Intent myIntent = new Intent();
+				myIntent.setAction(Intent.ACTION_SEND);
+			    myIntent.putExtra(Intent.EXTRA_TEXT, "Whatever message you want to share");
+			    myIntent.setType("text/plain");
+			 
+			    myShareActionProvider.setShareIntent(myIntent);
+			 
+			    //return true;
 		}
 	}
 }

@@ -10,4 +10,13 @@
 	    android:inputType="text"
 	    android:singleLine="true" />
 	
+	<ListPreference 
+	    android:key="@string/pref_temperatureunits_key" 
+	    android:title="@string/pref_temperatureunits_label"
+	    android:defaultValue="@string/pref_temperatureunits_metric"
+	    android:inputType="text"
+	    android:singleLine="true" 
+	    android:entries="@array/pref_temperatureunits_entries"
+    	android:entryValues="@array/pref_temperatureunits_values"/>
+	
 </PreferenceScreen>

@@ -1,31 +1,20 @@
 package com.acl.sunshine.app;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.acl.sunshine.app.ForecastFragment.FetchWeatherTask;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 
 
 public class MainActivity extends Activity {
+	private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +48,26 @@ public class MainActivity extends Activity {
 	    	return true;
         }
         
-        
+        if (id == R.id.action_showlocationonmap) {
+    		openPreferredLocationInMap();
+	    	return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void openPreferredLocationInMap() {
+    	String location = PreferenceManager.getDefaultSharedPreferences(this)
+				.getString(getString(R.string.pref_location_key), 
+				getString(R.string.pref_location_default));
+
+       	Uri builtLocUri = Uri.parse("geo:0,0?q="+location);
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.setData(builtLocUri);
+    	
+    	if (intent.resolveActivity(getPackageManager()) != null) {
+    	    startActivity(intent);
+    	} else {
+    		Log.d(LOG_TAG, "Couldn't call " + location +".");
+    	}
     }
 }
