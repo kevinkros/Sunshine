@@ -18,9 +18,11 @@ import org.json.JSONObject;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,12 +54,25 @@ public class ForecastFragment extends Fragment {
     	inflater.inflate(R.menu.forecastfragment, menu);
     }
 
+    private void updateWeather() {
+    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String location = sharedPref.getString(getString(R.string.pref_location_key), 
+				getString(R.string.pref_location_default));
+		FetchWeatherTask weatherTask = new FetchWeatherTask();
+		weatherTask.execute(location);
+    }
+    @Override
+    public void onStart(){
+    	super.onStart();
+    	updateWeather();
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
     	int id = item.getItemId();
     	if (id == R.id.action_refresh){
-    		FetchWeatherTask weatherTask = new FetchWeatherTask();
-    		weatherTask.execute("94043");
+    		
+    		updateWeather();
     		return true;
     	}     	
     	return super.onOptionsItemSelected(item);
@@ -66,23 +81,14 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-    	//setHasOptionsMenu(true);
+    	
         
-        String[] weatherArray = {
-        	"Today - Sunny - 22",
-        	"Tomorrow - Foggy - 23",
-        	"Wednesday - Dark - -2",
-        	"Thursday - Hazy - 123",
-        	"Friday - Stay at home - 3434",
-        	"Saturday - Come out again - 32",
-        	"Sunday - Normal - 22"
-        };
-        
-        List<String> weatherList = new ArrayList<String>(Arrays.asList(weatherArray));            
+        //List<String> weatherList = new ArrayList<String>(Arrays.asList(weatherArray));            
         
         mForecastAdapter = new ArrayAdapter<String>(
         		getActivity(), R.layout.list_item_forecast, 
-        		R.id.list_item_forecast_textview, weatherList);
+        		R.id.list_item_forecast_textview, 
+        		new ArrayList<String>());
         
         
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
