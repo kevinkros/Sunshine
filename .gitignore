@@ -3,3 +3,5 @@
 *.apk
 *.ap_
 *.dex
+BuildConfig.java
+R.java
