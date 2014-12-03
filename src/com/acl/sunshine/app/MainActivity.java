@@ -15,6 +15,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 	private final String LOG_TAG = MainActivity.class.getSimpleName();
+	
+
+	
+	
+	
+	
+	
+	
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +34,46 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new ForecastFragment())
                     .commit();
         }
+        Log.d(LOG_TAG, "SUNSHINECreate");
     }
 
+	
+	
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "SUNSHINEStart");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+        Log.d(LOG_TAG, "SUNSHINEResume");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+        Log.d(LOG_TAG, "SUNSHINEPause");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // The activity is no longer visible (it is now "stopped")
+        Log.d(LOG_TAG, "SUNSHINEStop");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+        Log.d(LOG_TAG, "SUNSHINEDestroy");
+    }
+
+    
+    
+    
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
