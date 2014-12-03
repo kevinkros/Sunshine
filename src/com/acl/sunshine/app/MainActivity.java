@@ -1,6 +1,5 @@
 package com.acl.sunshine.app;
 
-import com.acl.sunshine.app.ForecastFragment.FetchWeatherTask;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,13 +16,6 @@ public class MainActivity extends Activity {
 	private final String LOG_TAG = MainActivity.class.getSimpleName();
 	
 
-	
-	
-	
-	
-	
-	
-	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +62,6 @@ public class MainActivity extends Activity {
         Log.d(LOG_TAG, "SUNSHINEDestroy");
     }
 
-    
     
     
     
