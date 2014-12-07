@@ -44,7 +44,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
          * https://www.udacity.com/course/viewer#!/c-ud853/l-1639338560/e-1633698599/m-1633698600
          **/
 
-        final String SQL_CREATE_LOCATION_TABLE = "CREATE_TABLE " + LocationEntry.TABLE_NAME + " (" +
+        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
         		LocationEntry._ID + " INTEGER PRIMARY KEY," +
         		LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
         		LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " + 
