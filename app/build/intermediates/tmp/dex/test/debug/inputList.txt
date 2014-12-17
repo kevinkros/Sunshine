@@ -1,1 +1,0 @@
-/home/alex/AndroidstudioProjects/Sunshine/app/build/intermediates/classes/test/debug
