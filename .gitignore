@@ -17,3 +17,17 @@ local.properties
 proguard/
 # Log Files
 *.log
+
+# Others
+.DS_Store
+/libs
+build.xml
+ant.properties
+project.properties
+
+# idea project files
+.idea/
+.idea/.name
+*.iml
+*.ipr
+*.iws
