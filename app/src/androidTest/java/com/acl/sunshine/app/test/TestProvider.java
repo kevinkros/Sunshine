@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2014 The Android Open Source Project
  *
@@ -24,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.test.AndroidTestCase;
 import android.util.Log;
+
 import com.acl.sunshine.app.data.WeatherContract.LocationEntry;
 import com.acl.sunshine.app.data.WeatherContract.WeatherEntry;
 
@@ -54,9 +54,6 @@ public class TestProvider extends AndroidTestCase {
         assertEquals(0, cursor.getCount());
         cursor.close();
 
-        /* TODO Uncomment for
-        4b - Implement Location_ID queries
-        https://www.udacity.com/course/viewer#!/c-ud853/l-1576308909/e-1675098551/m-1675098552
         cursor = mContext.getContentResolver().query(
                 LocationEntry.CONTENT_URI,
                 null,
@@ -66,7 +63,6 @@ public class TestProvider extends AndroidTestCase {
         );
         assertEquals(0, cursor.getCount());
         cursor.close();
-        */
     }
 
     // Since we want each test to start with a clean slate, run deleteAllRecords
@@ -75,7 +71,6 @@ public class TestProvider extends AndroidTestCase {
         deleteAllRecords();
     }
 
-    
     public void testInsertReadProvider() {
 
         ContentValues testValues = TestDb.createNorthPoleLocationValues();
@@ -129,6 +124,7 @@ public class TestProvider extends AndroidTestCase {
 
         TestDb.validateCursor(weatherCursor, weatherValues);
 
+
         // Add the location values in with the weather data so that we can make
         // sure that the join worked and we actually get all the values back
         addAllContentValues(weatherValues, testValues);
@@ -164,9 +160,6 @@ public class TestProvider extends AndroidTestCase {
         );
         TestDb.validateCursor(weatherCursor, weatherValues);
     }
-  
-    
-    
 
     public void testGetType() {
         // content://com.example.android.sunshine.app/weather/
@@ -198,11 +191,7 @@ public class TestProvider extends AndroidTestCase {
         // vnd.android.cursor.item/com.example.android.sunshine.app/location
         assertEquals(LocationEntry.CONTENT_ITEM_TYPE, type);
     }
-    
 
-    /* TODO Uncomment for
-    4b - Updating and Deleting
-    https://www.udacity.com/course/viewer#!/c-ud853/l-1576308909/e-1675098563/m-1675098564
     public void testUpdateLocation() {
         // Create a new map of values, where column names are the keys
         ContentValues values = TestDb.createNorthPoleLocationValues();
@@ -236,14 +225,12 @@ public class TestProvider extends AndroidTestCase {
 
         TestDb.validateCursor(cursor, updatedValues);
     }
-    */
 
     // Make sure we can still delete after adding/updating stuff
     public void testDeleteRecordsAtEnd() {
         deleteAllRecords();
     }
 
-    // Helper Methods
 
     // The target api annotation is needed for the call to keySet -- we wouldn't want
     // to use this in our app, but in a test it's fine to assume a higher target.
@@ -286,6 +273,7 @@ public class TestProvider extends AndroidTestCase {
         return testValues;
     }
 
+
     // Inserts both the location and weather data for the Kalamazoo data set.
     public void insertKalamazooData() {
         ContentValues kalamazooLocationValues = createKalamazooLocationValues();
@@ -300,4 +288,56 @@ public class TestProvider extends AndroidTestCase {
                 .insert(WeatherEntry.CONTENT_URI, kalamazooWeatherValues);
         assertTrue(weatherInsertUri != null);
     }
+
+    public void testUpdateAndReadWeather() {
+        insertKalamazooData();
+        String newDescription = "Cats and Frogs (don't warn the tadpoles!)";
+
+        // Make an update to one value.
+        ContentValues kalamazooUpdate = new ContentValues();
+        kalamazooUpdate.put(WeatherEntry.COLUMN_SHORT_DESC, newDescription);
+
+        mContext.getContentResolver().update(
+                WeatherEntry.CONTENT_URI, kalamazooUpdate, null, null);
+
+        // A cursor is your primary interface to the query results.
+        Cursor weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // Make the same update to the full ContentValues for comparison.
+        ContentValues kalamazooAltered = createKalamazooWeatherValues(locationRowId);
+        kalamazooAltered.put(WeatherEntry.COLUMN_SHORT_DESC, newDescription);
+
+        TestDb.validateCursor(weatherCursor, kalamazooAltered);
+    }
+    /*
+    public void testRemoveHumidityAndReadWeather() {
+        insertKalamazooData();
+
+        mContext.getContentResolver().delete(WeatherEntry.CONTENT_URI,
+                WeatherEntry.COLUMN_HUMIDITY + " = " + locationRowId, null);
+
+        // A cursor is your primary interface to the query results.
+        Cursor weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // Make the same update to the full ContentValues for comparison.
+        ContentValues kalamazooAltered = createKalamazooWeatherValues(locationRowId);
+        kalamazooAltered.remove(WeatherEntry.COLUMN_HUMIDITY);
+
+        TestDb.validateCursor(weatherCursor, kalamazooAltered);
+        int idx = weatherCursor.getColumnIndex(WeatherEntry.COLUMN_HUMIDITY);
+        assertEquals(-1, idx);
+    }
+    */
 }
